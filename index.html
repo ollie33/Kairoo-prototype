@@ -1,0 +1,313 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kairoo - Find Your Perfect Activity Match</title>
+    <meta name="description" content="Discover amazing bars, restaurants, and activities. Meet new people and create unforgettable experiences with Kairoo.">
+    <meta name="keywords" content="social, matching, activities, bars, restaurants, meetup, friends">
+    <meta name="author" content="Kairoo Team">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://kairoo-app.com/">
+    <meta property="og:title" content="Kairoo - Find Your Perfect Activity Match">
+    <meta property="og:description" content="Discover amazing bars, restaurants, and activities. Meet new people and create unforgettable experiences.">
+    <meta property="og:image" content="https://kairoo-app.com/og-image.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://kairoo-app.com/">
+    <meta property="twitter:title" content="Kairoo - Find Your Perfect Activity Match">
+    <meta property="twitter:description" content="Discover amazing bars, restaurants, and activities. Meet new people and create unforgettable experiences.">
+    <meta property="twitter:image" content="https://kairoo-app.com/og-image.jpg">
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#6366f1">
+    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="icons/icon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="icons/icon-16x16.png">
+    
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Home Section (Only accessible after registration) -->
+        <div class="home-section" id="homeSection" style="display: none;">
+            <div class="home-header">
+                <h1 class="app-title">Kairoo</h1>
+                <h2>Welcome Back!</h2>
+                <p>Your Dashboard</p>
+                <p>Manage your profile and view your matches</p>
+            </div>
+            
+            <div class="home-stats">
+                <div class="stat-item">
+                    <div class="stat-number" id="activeMatches">0</div>
+                    <div class="stat-label">Active Matches</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="groupsJoined">0</div>
+                    <div class="stat-label">Groups Joined</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="upcomingEvents">1</div>
+                    <div class="stat-label">Upcoming Events</div>
+                </div>
+            </div>
+            
+            <div class="home-actions">
+                <button class="btn-primary large" onclick="navigateTo('match')">
+                    <span class="btn-icon">🎯</span>
+                    Find New Matches
+                </button>
+                <button class="btn-secondary large" onclick="navigateTo('chat')">
+                    <span class="btn-icon">💬</span>
+                    View Chats
+                </button>
+            </div>
+            
+            <div class="upcoming-events" id="upcomingEventsSection">
+                <h3>Upcoming Events</h3>
+                <div class="event-list" id="eventList">
+                    <!-- Events will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Activity Selection Section (Kairoo Match) -->
+        <div class="activity-selection-section" id="activitySelectionSection">
+            <div class="selection-header">
+                <h1 class="app-title">Kairoo Match</h1>
+                <h2>Choose Your Adventure</h2>
+                <p>Select what type of experience you're looking for today</p>
+            </div>
+            
+            <div class="activity-options">
+                <div class="activity-option" onclick="selectActivityType('bar')">
+                    <div class="option-icon">🍺</div>
+                    <h3>Bar</h3>
+                    <p>Find great bars and meet new people</p>
+                </div>
+                
+                <div class="activity-option" onclick="selectActivityType('restaurant')">
+                    <div class="option-icon">🍽️</div>
+                    <h3>Restaurant</h3>
+                    <p>Discover amazing restaurants together</p>
+                </div>
+                
+                <div class="activity-option" onclick="selectActivityType('activity')">
+                    <div class="option-icon">🎯</div>
+                    <h3>Activity</h3>
+                    <p>Join exciting activities and adventures</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Activity Cards Section -->
+        <div class="activity-cards-section" id="activityCardsSection" style="display: none;">
+            <div class="cards-header">
+                <button class="back-btn" onclick="goBackToSelection()">←</button>
+                <h2 id="cardsTitle">Find Your Perfect Match</h2>
+            </div>
+            
+            <div class="card-container">
+                <div class="activity-card" id="currentCard">
+                    <div class="card-image">
+                        <span id="cardImage">🍺</span>
+                    </div>
+                    <div class="card-content">
+                        <h3 id="cardTitle">The Blue Moon Bar</h3>
+                        <p id="cardDescription">Cozy rooftop bar with amazing city views</p>
+                        
+                        <div class="card-details">
+                            <div class="detail-item">
+                                <span class="detail-icon">📍</span>
+                                <span id="cardLocation">Downtown, 15 min walk</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-icon">⏰</span>
+                                <span id="cardTime">Tonight, 8:00 PM</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-icon">👥</span>
+                                <span id="cardParticipants">3 people interested</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="swipe-instructions">
+                    <div class="swipe-left">
+                        <span>👎</span>
+                        <span>Not Interested</span>
+                    </div>
+                    <div class="swipe-right">
+                        <span>👍</span>
+                        <span>Like</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="cards-progress">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="cardsProgressFill"></div>
+                </div>
+                <div class="progress-text" id="cardsProgressText">Keep swiping until you find your perfect match!</div>
+            </div>
+        </div>
+
+        <!-- Profile Setup Modal -->
+        <div id="profileSetupModal" class="modal-overlay hidden">
+            <div class="modal-content profile-setup">
+                <div class="modal-header">
+                    <h3>Perfect Group Found!</h3>
+                    <p>We've found the perfect group for you! Please set up your profile to continue.</p>
+                </div>
+                <div class="modal-body">
+                    <form class="profile-form">
+                        <div class="form-group">
+                            <label for="profileName">Name *</label>
+                            <input type="text" id="profileName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="profileAge">Age *</label>
+                            <input type="number" id="profileAge" min="18" max="100" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="profileGender">Gender *</label>
+                            <select id="profileGender" required>
+                                <option value="">Select gender</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="profileBio">Bio (Optional)</label>
+                            <textarea id="profileBio" rows="3" placeholder="Tell us about yourself..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Profile Photo (Optional)</label>
+                            <div class="photo-upload">
+                                <div class="upload-area" onclick="document.getElementById('profilePhoto').click()">
+                                    <span class="upload-icon">📷</span>
+                                    <div class="upload-text">Click to upload photo</div>
+                                </div>
+                                <div id="profilePreviewArea" class="preview-area" style="display: none;">
+                                    <img id="profilePreviewImage" src="" alt="Profile preview">
+                                    <button type="button" class="remove-photo" onclick="removeProfilePhoto()">×</button>
+                                </div>
+                                <input type="file" id="profilePhoto" accept="image/*" style="display: none;">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-secondary" onclick="hideProfileSetupModal()">Cancel</button>
+                    <button type="button" class="btn-primary" onclick="completeProfileSetup()">Complete Setup</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Leave Group Modal -->
+        <div id="leaveGroupModal" class="modal-overlay hidden">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Leave Group?</h3>
+                    <p>Are you sure you want to leave this group? You can always find a new match later.</p>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-secondary" onclick="hideLeaveGroupModal()">Cancel</button>
+                    <button type="button" class="btn-primary" onclick="leaveGroupAndRestart()">Leave Group</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chat Section -->
+        <div class="chat-section" id="chatSection" style="display: none;">
+            <!-- Chat Groups List View -->
+            <div class="chat-groups-view" id="chatGroupsView">
+                <div class="chat-header">
+                    <h3>Your Chat Groups</h3>
+                    <p>Select a group to start chatting</p>
+                </div>
+                
+                <div class="chat-groups-list" id="chatGroupsList">
+                    <!-- Chat groups will be populated by JavaScript -->
+                </div>
+            </div>
+            
+            <!-- Individual Chat Room View -->
+            <div class="chat-room-view" id="chatRoomView" style="display: none;">
+                <div class="chat-header">
+                    <button class="back-btn" onclick="showChatGroups()">←</button>
+                    <div class="group-info">
+                        <div class="group-avatar" id="currentGroupAvatar">🎯</div>
+                        <div class="group-details">
+                            <h4 id="chatGroupName">Activity Group</h4>
+                            <span class="group-status">4 members online</span>
+                        </div>
+                    </div>
+                    <div class="leave-group-icon" onclick="showLeaveGroupModal()" title="Leave Group">
+                        <span>🚪</span>
+                    </div>
+                </div>
+                
+                <div class="chat-messages" id="chatMessages">
+                    <!-- Messages will be populated by JavaScript -->
+                </div>
+
+                <div class="chat-input-section">
+                    <input type="text" id="chatInput" placeholder="Type your message..." disabled>
+                    <button class="send-btn" id="sendBtn" disabled>📤</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation Bar -->
+    <div class="navigation-bar">
+        <div class="nav-item active" onclick="navigateTo('home')">
+            <span class="nav-icon">🏠</span>
+            <span class="nav-text">Home</span>
+        </div>
+        <div class="nav-item" onclick="navigateTo('chat')">
+            <span class="nav-icon">💬</span>
+            <span class="nav-text">Chat</span>
+        </div>
+        <div class="nav-item" onclick="navigateTo('match')">
+            <span class="nav-icon">🎯</span>
+            <span class="nav-text">Kairoo Match</span>
+        </div>
+        <div class="nav-item" onclick="navigateTo('profile')">
+            <span class="nav-icon">👤</span>
+            <span class="nav-text">Profile</span>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    
+    <!-- Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        console.log('SW registered: ', registration);
+                    })
+                    .catch(registrationError => {
+                        console.log('SW registration failed: ', registrationError);
+                    });
+            });
+        }
+    </script>
+</body>
+</html> 
